@@ -43,7 +43,7 @@ the plugin group; otherwise, they will not be accessible to this plug-in and run
 
 - Dynamic claims generation - Not yet supported by AuthZEN.
 - Authorize if configured claims are allowed to be issued in token(s).
-- Add authorization to all supported flows. Currently only Code Flow is implemented.
+- Add authorization to all supported flows. Currently only Code Flow and Client Credentials are implemented.
 
 ## More Information
 
