@@ -4,10 +4,13 @@
 
 A custom Token Procedure plugin for the Curity Identity Server.
 
-- If token is allowed to be issued
+Authorization can be configured for different use cases:
+- If token is allowed to be issued in general (this is always on if the token procedure is configured)
 - If requested scope(s) is/are allowed
-- If user is allowed to be issued token for the given client/app
+- If token is allowed to be issued for the given client/app
 
+> [!NOTE]
+> Additional details are outlined in the [OpenID AuthZEN Token Procedure](https://curity.io/resources/learn/authzen-token-procedure/) article.
 ## Building the Plugin
 
 You can build the plugin by issuing the command ``mvn package``. This will produce a JAR file in the ``target`` directory,
@@ -15,7 +18,7 @@ which can be installed.
 
 ## Installing the Plugin
 
-To install the plugin, copy the compiled JAR (and all of its dependencies) into the :file:`${IDSVR_HOME}/usr/share/plugins/AuthZENTokenProcedure`
+To install the plugin, copy the compiled JAR (and all of its dependencies) into the :file:`${IDSVR_HOME}/usr/share/plugins/authzen-token-procedure`
 on each node, including the admin node. For more information about installing plugins, refer to [curity.io/plugins](https://curity.io/docs/idsvr/latest/developer-guide/plugins/index.html#plugin-installation).
 
 ## Required Dependencies
