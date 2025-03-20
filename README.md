@@ -31,13 +31,13 @@ the plugin group; otherwise, they will not be accessible to this plug-in and run
 ### Authorization Configuration
 | Parameter          | Type    | Description                                                                                                                                                                                                                                             | Default |
 |--------------------|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `Authorize Client` | Boolean | This setting will pass the ID of client used for the flow to be passed as a resource attribute to the PDP. It is expected that the PDP will have a policy in place to determine of this client is allowed to issue tokens to the given client and user. | `False` |
-| `Authorize Scope`  | Boolean | This setting will pass the scope(s) that the client is requesting to be passed as resource attributes to the PDP. It is expected that the PDP will have a policy in place to determine of the scope(s) is/are allowed and if tokens should be issued.   | `False` |
+| `Authorize Client` | Boolean | When enabled, the `client_id` of the request is passed a resource attribute in the request to the PDP. | `False` |
+| `Authorize Scope`  | Boolean | When enabled, the scope(s) requested are passed as resource attributes to the PDP. | `False` |
 
 ### PDP Configuration
 | Name         | Type   | Description                                                                                      | Example                   | Default                 |
 |--------------|--------|--------------------------------------------------------------------------------------------------|---------------------------|-------------------------|
-| `HttpClient` | String | The ID of the HttpClient that the Authorization Manager will use to call the OpenID AuthZEN PDP. | `authzen-http-client`     |                         |
+| `HttpClient` | String | The ID of the HttpClient that the Authorization Manager use to call the OpenID AuthZEN PDP.      | `authzen-http-client`     |                         |
 | `PDP Host`   | String | The hostname of the OpenID AuthZEN PDP.                                                          | `authzen-pdp.example.com` | `localhost`             |
 | `PDP Port`   | String | The port that the OpenID AuthZEN PDP is exposing its service on.                                 | `8443`                    | `443`                   |
 | `PDP Path`   | String | The path of the OpenID AuthZEN PDP that accepts authorization requests.                          | `/pdp`                    | `/access/v1/evaluation` |
