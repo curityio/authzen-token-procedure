@@ -17,15 +17,17 @@ package com.example.curity.AuthZENTokenProcedure.authzen;
 
 import com.example.curity.AuthZENTokenProcedure.config.AuthZENTokenProcedureConfig;
 import com.example.curity.AuthZENTokenProcedure.procedures.AuthZENTokenProcedureConstants.ProcedureType;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
+import org.json.JSONObject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AuthZenHelper
 {
-    private static String SUBJECT = "subject";
-    private static String ACTION = "action";
-    private static String RESOURCE = "resource";
-    private static String CONTEXT = "context";
+    private static final String SUBJECT = "subject";
+    private static final String ACTION = "action";
+    private static final String RESOURCE = "resource";
+    private static final String CONTEXT = "context";
     private static AuthZENTokenProcedureConfig _config;
     private static String _type;
 
@@ -47,45 +49,40 @@ public class AuthZenHelper
             _type = "client";
         }
 
-        JsonObject subjectAttributes = Json.createObjectBuilder()
-                .add(SUBJECT, Json.createObjectBuilder()
-                        .add("type", _type)
-                        .add("id", subject))
-                .build();
+        JSONObject subjectAttributes = new JSONObject();
+        subjectAttributes.put("type", _type).put("id", subject);
 
-        JsonObject resourceAttributes = Json.createObjectBuilder()
-                .add(RESOURCE, Json.createObjectBuilder()
-                        .add("type", "api")
-                        .add("id", resource))
-                .build();
+        JSONObject resourceAttributes = new JSONObject();
+        resourceAttributes.put("type", "api").put("id", resource);
 
         /*
         If scope authorization is enabled add the requested scope(s) to the authorization request
          */
-        if(_config.getAuthzConfig().getAuthorizeScope())
-        {
-            resourceAttributes.get(RESOURCE).asJsonObject().put("scope", Json.createValue(scope));
+        if (_config.getAuthzConfig().getAuthorizeScope()) {
+            resourceAttributes.put("properties", new JSONObject().put("scope", scope));
         }
         /*
         If clientID authorization is enabled add the clientID to the authorization request
          */
-        if(_config.getAuthzConfig().getAuthorizeClient())
-        {
-            resourceAttributes.get(RESOURCE).asJsonObject().put("clientId", Json.createValue(clientId));
+        if (_config.getAuthzConfig().getAuthorizeClient()) {
+
+            if( resourceAttributes.has("properties") ) {
+                resourceAttributes.getJSONObject("properties").put("clientId", clientId);
+            }
+            else
+            {
+                resourceAttributes.put("properties", new JSONObject().put("clientId", clientId));
+            }
         }
 
-        JsonObject actionAttributes = Json.createObjectBuilder()
-                .add(ACTION, Json.createObjectBuilder()
-                        .add("name", "can_issue")
-                        .add("properties", Json.createObjectBuilder().add("method", action))
-                )
-                .build();
+        JSONObject actionAttributes = new JSONObject()
+        .put("name", "can_issue")
+                .put("properties", new JSONObject()
+                        .put("method", action));
 
-        return Json.createObjectBuilder()
-                .add(SUBJECT, subjectAttributes.get(SUBJECT))
-                .add(RESOURCE, resourceAttributes.get(RESOURCE))
-                .add(ACTION, actionAttributes.get(ACTION))
-                .build()
+        return new JSONObject().put(SUBJECT, subjectAttributes)
+                .put(RESOURCE, resourceAttributes)
+                .put(ACTION, actionAttributes)
                 .toString();
     }
 }

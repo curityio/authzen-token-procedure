@@ -66,8 +66,6 @@ public class AuthZenPEP
 
     public boolean getAuthorization(String subject, String method, String resource)
     {
-        _logger.error("CLAIM NAMES: {}", _clientId);
-
         String authZenRequestBody = AuthZenHelper.getAuthZenRequest(
                 _config,
                 subject,
@@ -76,6 +74,8 @@ public class AuthZenPEP
                 _requestedScopes,
                 _clientId
                 );
+
+        _logger.error("authZenRequestBody: {}", authZenRequestBody);
 
         HttpResponse pdpResponse = _pdpClient.request(pdpURI)
                 .contentType("application/json")
